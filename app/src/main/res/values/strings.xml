@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Simple Todo</string>
+    <string name="screen_name">Edit Item</string>
+</resources>
