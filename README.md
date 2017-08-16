@@ -1,6 +1,6 @@
-# Pre-work - *Name of App Here*
+# Pre-work - *ToDoList App*
 
-**Name of your app** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
+**ToDoList** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
 
 Submitted by: **Uduak Obong-Eren**
 
@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://imgur.com/dAY5BWi' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
