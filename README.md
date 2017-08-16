@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/dAY5BWi' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
+<img src='http://imgur.com/dAY5BWi.gif' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
