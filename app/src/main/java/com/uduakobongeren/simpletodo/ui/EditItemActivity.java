@@ -16,7 +16,7 @@ import com.uduakobongeren.simpletodo.R;
  */
 public class EditItemActivity extends AppCompatActivity {
 
-    private Button msaveEditBtn;
+    private Button mSaveEditBtn;
     private EditText editTextField;
 
     @Override
@@ -27,13 +27,10 @@ public class EditItemActivity extends AppCompatActivity {
         String itemToBeEdited = getIntent().getStringExtra("EDIT_ITEM");
         final int itemPos = getIntent().getIntExtra("ITEM_POS", -1);
         editTextField = (EditText) findViewById(R.id.editItem);
-        msaveEditBtn = (Button) findViewById(R.id.saveEdit);
-
-        //Set field text
+        mSaveEditBtn = (Button) findViewById(R.id.saveEdit);
         editTextField.setText(itemToBeEdited);
 
-        //Set button onClickListener
-        msaveEditBtn.setOnClickListener(new View.OnClickListener() {
+        mSaveEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

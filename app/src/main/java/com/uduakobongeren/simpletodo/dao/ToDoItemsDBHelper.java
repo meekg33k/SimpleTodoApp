@@ -9,9 +9,7 @@ import android.util.Log;
 import com.uduakobongeren.simpletodo.model.ToDoItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import static android.content.ContentValues.TAG;
-
 
 
 /**
@@ -100,8 +98,9 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Error while trying to add new item to database");
         } finally {
             db.endTransaction();
-            return status;
         }
+        return status;
+
     }
 
     public boolean editToDoItem(ToDoItem item, String newDesc) {
@@ -113,8 +112,6 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
             values.put(FIELD_ITEM_DESCRIPTION, newDesc);
-            //TODO: Add more edit options
-
             db.update(TABLE_ITEMS, values, "id="+id, null);
             db.setTransactionSuccessful();
             status = true;
@@ -123,8 +120,72 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Error while trying to edit todo item in database");
         } finally {
             db.endTransaction();
+        }
+        return status;
+
+    }
+
+    public boolean updateItemCompletedState(ToDoItem item, int completed) {
+        SQLiteDatabase db = getWritableDatabase();
+        long id = item.getId();
+        boolean status = false;
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FIELD_ITEM_IS_COMPLETED, completed);
+            db.update(TABLE_ITEMS, values, "id="+id, null);
+            db.setTransactionSuccessful();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while trying to update item's completed state  in database");
+        } finally {
+            db.endTransaction();
+        }
+        return status;
+    }
+
+    public boolean updateItemPriority(ToDoItem item, String priority) {
+        SQLiteDatabase db = getWritableDatabase();
+        long id = item.getId();
+        boolean status = false;
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FIELD_ITEM_PRIORITY, priority);
+            db.update(TABLE_ITEMS, values, "id="+id, null);
+            db.setTransactionSuccessful();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while trying to update item's priority state  in database");
+        } finally {
+            db.endTransaction();
             return status;
         }
+    }
+
+    public boolean updateItemCompletionDate(ToDoItem item, String date) {
+        SQLiteDatabase db = getWritableDatabase();
+        long id = item.getId();
+        boolean status = false;
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FIELD_ITEM_DATE, date);
+            db.update(TABLE_ITEMS, values, "id="+id, null);
+            db.setTransactionSuccessful();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while trying to update item's date  in database");
+        } finally {
+            db.endTransaction();
+        }
+        return status;
     }
 
     public boolean deleteToDoItem(long id) {
@@ -149,9 +210,7 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
     public ArrayList<ToDoItem> getAllItems() {
         ArrayList<ToDoItem> items = new ArrayList<>();
 
-        String ITEMS_SELECT_QUERY =
-                String.format("SELECT * FROM %s", TABLE_ITEMS);
-
+        String ITEMS_SELECT_QUERY = String.format("SELECT * FROM %s", TABLE_ITEMS);
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(ITEMS_SELECT_QUERY, null);
         try {
@@ -161,9 +220,7 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
 
                     //Set item attributes
                     toDoItem.setId(cursor.getInt(cursor.getColumnIndex(FIELD_ITEM_ID)));
-                    /**toDoItem.setCompletionDate(
-                            DateUtils.formatStringToDate(appContext, cursor.getString(cursor.getColumnIndexOrThrow(FIELD_ITEM_DATE))));**/
-                    toDoItem.setCompletionDate("");
+                    toDoItem.setCompletionDate(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_DATE)));
                     toDoItem.setDescription(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_DESCRIPTION)));
                     toDoItem.setCompleted(cursor.getInt(cursor.getColumnIndex(FIELD_ITEM_IS_COMPLETED)));
                     toDoItem.setPriority(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_PRIORITY)));
@@ -172,7 +229,7 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get posts from database");
+            Log.d(TAG, "Error while trying to get items from database");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();

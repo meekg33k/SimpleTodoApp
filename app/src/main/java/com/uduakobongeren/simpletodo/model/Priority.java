@@ -9,7 +9,7 @@ public enum Priority {
     LOW("LOW"),
     MEDIUM("MEDIUM");
 
-    private String level;
+    public String level;
 
     Priority(String level) {
         this.level = level;

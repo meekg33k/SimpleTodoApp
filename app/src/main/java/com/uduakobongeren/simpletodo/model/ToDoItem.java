@@ -2,7 +2,7 @@ package com.uduakobongeren.simpletodo.model;
 
 /**
  *
- * Pojo representing a ToDo Item
+ * POJO representing a ToDo Item
  *
  * @author Uduak Obong-Eren
  * @since 8/13/17.
@@ -36,7 +36,7 @@ public class ToDoItem {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {

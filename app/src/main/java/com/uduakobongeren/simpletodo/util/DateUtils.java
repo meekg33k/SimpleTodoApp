@@ -3,7 +3,6 @@ package com.uduakobongeren.simpletodo.util;
 
 import android.content.Context;
 import android.util.Log;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

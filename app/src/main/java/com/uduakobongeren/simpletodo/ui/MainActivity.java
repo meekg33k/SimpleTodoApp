@@ -11,14 +11,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.uduakobongeren.simpletodo.R;
 import com.uduakobongeren.simpletodo.dao.ToDoItemsDBHelper;
 import com.uduakobongeren.simpletodo.model.Priority;
 import com.uduakobongeren.simpletodo.model.ToDoItem;
-
 import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //ArrayAdapter<String> itemsAdapter;
     ArrayList<ToDoItem> items;
     ArrayAdapter<ToDoItem> itemsAdapter;
+    ToDoItemsAdapter toDoItemsAdapter;
     ListView listViewItems;
     ToDoItemsDBHelper dao;
 
@@ -50,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
         //readItems();
         readItemsFromDatabase();
-
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        toDoItemsAdapter = new ToDoItemsAdapter(this, items, dao); //Creating custom adapter
 
-        //TODO: Create custom adapter
-        listViewItems.setAdapter(itemsAdapter);
+        //listViewItems.setAdapter(itemsAdapter);
+        listViewItems.setAdapter(toDoItemsAdapter);
         setUpViewListeners();
 
     }
@@ -62,20 +60,25 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v){
         EditText editTextView = (EditText) findViewById(R.id.enterNewItem);
         String itemText =  editTextView.getText().toString();
-        ToDoItem newItem = new ToDoItem(itemText, Priority.HIGH.getLevel(), "");
 
-        //writeItems();
-        // TODO: Write to database
-        if (writeItemToDatabase(newItem)){
+        if (!itemText.equals("")){
+            ToDoItem newItem = new ToDoItem(itemText, Priority.LOW.getLevel(), "");
 
-            //Update list
-            itemsAdapter.add(newItem);
+            //writeItems();
+            if (writeItemToDatabase(newItem)){
+                //itemsAdapter.add(newItem); //Update list for default adapter
 
-            //Clear field
-            editTextView.setText("");
+                //Update list for custom adapter
+                toDoItemsAdapter.add(newItem);
+
+                //Clear field
+                editTextView.setText("");
+            }
         }
+
     }
 
+    /** These listeners work with default listView adapter **/
     private void setUpViewListeners(){
         listViewItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
@@ -101,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
                         TextView editText = (TextView) item;
                         String itemToBeEdited = editText.getText().toString();
-                        System.out.println("Item to be edited is "+itemToBeEdited);
                         editItemIntent.putExtra("EDIT_ITEM", itemToBeEdited);
                         editItemIntent.putExtra("ITEM_POS", itemPos);
 
@@ -171,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
                 String newDescription = data.getStringExtra("NEW_ITEM_VAL");
                 int itemPos = data.getIntExtra("ITEM_POS", -1);
                 ToDoItem editedItem = items.get(itemPos);
-
-                //TODO: Add more edit fields
 
                 if (itemPos != -1){
 

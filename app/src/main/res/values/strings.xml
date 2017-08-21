@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ToDoList</string>
     <string name="screen_name">Edit Item</string>
+    <string name="priority_low">Low</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">High</string>
 </resources>
