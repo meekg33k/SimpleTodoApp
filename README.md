@@ -17,10 +17,10 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 * [x] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
-* [ ] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
-* [ ] Add support for completion due dates for todo items (and display within listview item)
+* [x] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
+* [x] Add support for completion due dates for todo items (and display within listview item)
 * [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
-* [ ] Add support for selecting the priority of each todo item (and display in listview item)
+* [x] Add support for selecting the priority of each todo item (and display in listview item)
 * [x] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/dAY5BWi.gif' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
+<img src='http://i.imgur.com/XgwHSHD.gifv' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -51,7 +51,7 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 
 * The first challenge I had was while working on persisting the ToDo items in the SQLite database. I needed to view the structure of the tables I had created and I initially had trouble connecting to my app's via the adb shell, particularly because I had errors starting up the Android Device Monitor.
 
-* I also had some challenge with the correct type to use for date field in the app's database and formatting the date was also a bit of a challenge. 
+* I also had some challenge with the correct type to use for date field in the app's database; formatting the date was also a bit of a challenge. 
 
 ## License
 
