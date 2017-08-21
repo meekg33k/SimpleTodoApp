@@ -31,7 +31,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/XgwHSHD.gifv' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
+<img src='http://i.imgur.com/XgwHSHD.gif' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -51,7 +51,7 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 
 * The first challenge I had was while working on persisting the ToDo items in the SQLite database. I needed to view the structure of the tables I had created and I initially had trouble connecting to my app's via the adb shell, particularly because I had errors starting up the Android Device Monitor.
 
-* I also had some challenge with the correct type to use for date field in the app's database; formatting the date was also a bit of a challenge. 
+* I also had some challenge with the correct type to use for date field in the app's database formatting the date was also a bit of a challenge. 
 
 ## License
 
