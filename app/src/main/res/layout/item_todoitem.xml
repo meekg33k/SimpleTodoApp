@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridLayout"
+        android:columnCount="3"
+        android:rowCount="1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/itemCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="start|top"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="11dp"
+            android:hint="Name of ToDo Item here..."
+            android:textColor="@color/myTextColor"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/itemDate"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:ems="10"
+            android:clickable="true"
+            android:editable="false"/>
+    </GridLayout>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/gridLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="35dp"
+        android:id="@+id/itemPriority"
+        android:weightSum="1">
+
+
+        <RadioButton android:id="@+id/lowPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/priority_low"
+            android:layout_weight="0.09" />
+
+        <RadioButton
+            android:id="@+id/mediumPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12"
+            android:text="@string/priority_medium" />
+
+        <RadioButton
+            android:id="@+id/highPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/priority_high"
+            android:layout_weight="0.08" />
+    </RadioGroup>
+</RelativeLayout>
