@@ -7,15 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.uduakobongeren.simpletodo.R;
 import com.uduakobongeren.simpletodo.dao.ToDoItemsDBHelper;
 import com.uduakobongeren.simpletodo.model.Priority;
 import com.uduakobongeren.simpletodo.model.ToDoItem;
+
 import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,17 +30,18 @@ import java.util.ArrayList;
  * @author Uduak Obong-Eren
  * @since 8/13/17.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditItemNameDialogListener {
 
     public static final int REQUEST_CODE = 1;
-    //ArrayList<String> items;
-    //ArrayAdapter<String> itemsAdapter;
-    ArrayList<ToDoItem> items;
-    ArrayAdapter<ToDoItem> itemsAdapter;
-    ToDoItemsAdapter toDoItemsAdapter;
-    ListView listViewItems;
+    private ArrayList<ToDoItem> items;
+    private ArrayAdapter<ToDoItem> itemsAdapter;
+    private ToDoItemsAdapter toDoItemsAdapter;
+    private ListView listViewItems;
+    private Switch toggleCompleted;
     ToDoItemsDBHelper dao;
 
+    //ArrayList<String> items;
+    //ArrayAdapter<String> itemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         dao = ToDoItemsDBHelper.getInstance(getApplicationContext());
         listViewItems = (ListView) findViewById(R.id.lvItems);
+        toggleCompleted = (Switch) findViewById(R.id.toggleCompleted);
         items = new ArrayList<>();
 
         //readItems();
@@ -54,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
         //listViewItems.setAdapter(itemsAdapter);
         listViewItems.setAdapter(toDoItemsAdapter);
         setUpViewListeners();
+
+        /** Listener to display only outstanding items **/
+        toggleCompleted.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    //Show only outstanding to-do items
+                    toDoItemsAdapter.clear();
+                    readPendingItemsFromDatabase();
+                    toDoItemsAdapter.addAll(items);
+
+                } else {
+                    //Show all to-do items
+                    toDoItemsAdapter.clear();
+                    readItemsFromDatabase();
+                    toDoItemsAdapter.addAll(items);
+                }
+            }
+        });
 
     }
 
@@ -136,6 +162,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void readPendingItemsFromDatabase(){
+        try {
+            items = dao.getAllPendingItems();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     private void writeItems(){
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todoList.txt");
@@ -189,6 +224,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onFinishEditDialog(String newDescription, int itemId, int itemPos) {
+        ToDoItem editedItem = items.get(itemPos);
+
+        if (itemPos != -1){
+
+            if (dao.editToDoItem(editedItem, newDescription)){
+                Toast.makeText(this, "Changes saved successfully!", Toast.LENGTH_LONG).show();
+                editedItem.setDescription(newDescription);
+                itemsAdapter.notifyDataSetChanged();
+            }
+            //writeItems();
+        }
+    }
+
 
 
 }
