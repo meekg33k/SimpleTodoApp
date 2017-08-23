@@ -19,19 +19,21 @@ The following **optional** features are implemented:
 * [x] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
 * [x] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [x] Add support for completion due dates for todo items (and display within listview item)
-* [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+* [x] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
 * [x] Add support for selecting the priority of each todo item (and display in listview item)
 * [x] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
 * [x] Status messages using Toast!
+* [x] Checkbox that allows user mark an item as completed
+* [x] Toggle feature that allows user view all list items versus incomplete list items
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/XgwHSHD.gif' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
+<img src='http://i.imgur.com/iD6ci2t.gif' width='600' title='ToDoList Video Walkthrough' width='' alt='ToDoList Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
