@@ -1,10 +1,9 @@
 package com.uduakobongeren.simpletodo.ui;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +17,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.uduakobongeren.simpletodo.R;
 import com.uduakobongeren.simpletodo.dao.ToDoItemsDBHelper;
 import com.uduakobongeren.simpletodo.model.Priority;
 import com.uduakobongeren.simpletodo.model.ToDoItem;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-
-import static com.uduakobongeren.simpletodo.ui.MainActivity.REQUEST_CODE;
 
 /**
  * @author Uduak Obong-Eren
@@ -36,9 +35,10 @@ import static com.uduakobongeren.simpletodo.ui.MainActivity.REQUEST_CODE;
 
 public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
-    Context appContext;
-    ToDoItemsDBHelper dao;
-    ToDoItemsAdapter self = this;
+    private Context appContext;
+    private ToDoItemsDBHelper dao;
+    private ToDoItemsAdapter self = this;
+    private RadioGroup itemPriorityGroup;
 
     public ToDoItemsAdapter(Context context, ArrayList<ToDoItem> items, ToDoItemsDBHelper dbHelper) {
         super(context, 0, items);
@@ -48,18 +48,19 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ToDoItem toDoItem = getItem(position);
-        final Activity mainActivity = (Activity) appContext;
 
         if (convertView == null) {
             convertView = LayoutInflater.from(appContext).inflate(R.layout.item_todoitem, parent, false);
         }
 
+        final ToDoItem toDoItem = getItem(position);
+        final MainActivity mainActivity = (MainActivity) appContext;
+        itemPriorityGroup = convertView.findViewById(R.id.itemPriority);
         final Calendar myCalendar = Calendar.getInstance();
         final TextView itemDescTextView = convertView.findViewById(R.id.itemName);
         final CheckBox itemCompletedCheckBox = convertView.findViewById(R.id.itemCompleted);
         final EditText itemDate = convertView.findViewById(R.id.itemDate);
-        final RadioGroup itemPriorityGroup = convertView.findViewById(R.id.itemPriority);
+        final RadioGroup priorityGroup = convertView.findViewById(R.id.itemPriority);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -93,12 +94,25 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
             @Override
             public void onClick(View view) {
 
-                Intent editItemIntent = new Intent(mainActivity, EditItemActivity.class);
+                //Previous implementation that uses an Activity
+                /*Intent editItemIntent = new Intent(mainActivity, EditItemActivity.class);
                 String itemToBeEdited = itemDescTextView.getText().toString();
                 editItemIntent.putExtra("EDIT_ITEM", itemToBeEdited);
                 editItemIntent.putExtra("ITEM_POS", position);
 
-                mainActivity.startActivityForResult(editItemIntent, REQUEST_CODE);
+                mainActivity.startActivityForResult(editItemIntent, REQUEST_CODE);*/
+
+                if (toDoItem != null){
+                    EditItemDialogFragment editItemDialogFragment = new EditItemDialogFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("itemDesc", toDoItem.getDescription());
+                    bundle.putInt("itemId", (int) toDoItem.getId());
+                    bundle.putInt("itemPos", position);
+
+                    editItemDialogFragment.setArguments(bundle);
+                    editItemDialogFragment.show( mainActivity.getSupportFragmentManager(), "Well");
+                }
             }
         });
 
@@ -133,6 +147,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
                                 //Update toDoItem View
                                 itemDescTextView.setPaintFlags(itemDescTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                //Disable priority radio buttons
+                                for (int i = 0; i < priorityGroup.getChildCount(); i++) {
+                                    priorityGroup.getChildAt(i).setEnabled(false);
+                                }
                             }
                         }
                     }
@@ -146,6 +165,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
                                 //Update toDoItem View
                                 itemDescTextView.setPaintFlags(itemDescTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+
+                                //Enable priority radio buttons
+                                for (int i = 0; i < priorityGroup.getChildCount(); i++) {
+                                    priorityGroup.getChildAt(i).setEnabled(true);
+                                }
                             }
                         }
                     }
@@ -155,11 +179,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
 
         /** Listener to set toDoItem's priority **/
-        itemPriorityGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        priorityGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
 
-                RadioButton checkedRadioButton = itemPriorityGroup.findViewById(checkedId);
+                RadioButton checkedRadioButton = priorityGroup.findViewById(checkedId);
                 boolean isChecked = checkedRadioButton.isChecked();
                 String priority;
 
@@ -174,11 +198,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
                                     if (dao.updateItemPriority(toDoItem, priority)){
                                         toDoItem.setPriority(priority);
-                                        Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 //Update color based on priority
-                                itemPriorityGroup.setBackgroundResource(R.color.priorityLow);
+                                priorityGroup.setBackgroundResource(R.color.priorityLow);
                                 break;
                             case "MEDIUM":
                                 priority = Priority.MEDIUM.getLevel();
@@ -186,11 +210,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
                                     if (dao.updateItemPriority(toDoItem, priority)){
                                         toDoItem.setPriority(priority);
-                                        Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 //Update color based on priority
-                                itemPriorityGroup.setBackgroundResource(R.color.priorityMedium);
+                                priorityGroup.setBackgroundResource(R.color.priorityMedium);
                                 break;
                             case "HIGH":
                                 priority = Priority.HIGH.getLevel();
@@ -198,11 +222,11 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
                                     if (dao.updateItemPriority(toDoItem, priority)){
                                         toDoItem.setPriority(priority);
-                                        Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(appContext, "Priority updated successfully!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 //Update color based on priority
-                                itemPriorityGroup.setBackgroundResource(R.color.priorityHigh);
+                                priorityGroup.setBackgroundResource(R.color.priorityHigh);
                                 break;
                             default:
                                 priority = Priority.LOW.getLevel();
@@ -230,10 +254,14 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
             itemCompletedCheckBox.setChecked(toDoItem.isCompleted() == 1);
             itemDescTextView.setText(toDoItem.getDescription());
 
-            if (toDoItem.isCompleted() == 1)
+            if (toDoItem.isCompleted() == 1){
                 itemDescTextView.setPaintFlags(itemDescTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            else
+                setStatePriorityRadioButtons(false);
+            }
+            else{
                 itemDescTextView.setPaintFlags(itemDescTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                setStatePriorityRadioButtons(true);
+            }
 
             switch(toDoItem.getPriority()){
                 case "LOW":
@@ -276,6 +304,13 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
 
     private boolean setItemCompletionDate(ToDoItem item, String date){
         return dao.updateItemCompletionDate(item, date);
+    }
+
+    private void setStatePriorityRadioButtons(boolean state){
+
+        for (int i = 0; i < itemPriorityGroup.getChildCount(); i++) {
+            itemPriorityGroup.getChildAt(i).setEnabled(state);
+        }
     }
 
 }

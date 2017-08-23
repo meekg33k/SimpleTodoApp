@@ -122,6 +122,27 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return status;
+    }
+
+    public boolean editToDoItemDesc(String newDesc, int pos) {
+        SQLiteDatabase db = getWritableDatabase();
+        long id = pos;
+        boolean status = false;
+        db.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(FIELD_ITEM_DESCRIPTION, newDesc);
+            db.update(TABLE_ITEMS, values, "id="+id, null);
+            db.setTransactionSuccessful();
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while trying to edit todo item in database");
+        } finally {
+            db.endTransaction();
+        }
+        return status;
 
     }
 
@@ -211,6 +232,37 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
         ArrayList<ToDoItem> items = new ArrayList<>();
 
         String ITEMS_SELECT_QUERY = String.format("SELECT * FROM %s", TABLE_ITEMS);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(ITEMS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    ToDoItem toDoItem = new ToDoItem();
+
+                    //Set item attributes
+                    toDoItem.setId(cursor.getInt(cursor.getColumnIndex(FIELD_ITEM_ID)));
+                    toDoItem.setCompletionDate(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_DATE)));
+                    toDoItem.setDescription(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_DESCRIPTION)));
+                    toDoItem.setCompleted(cursor.getInt(cursor.getColumnIndex(FIELD_ITEM_IS_COMPLETED)));
+                    toDoItem.setPriority(cursor.getString(cursor.getColumnIndex(FIELD_ITEM_PRIORITY)));
+
+                    items.add(toDoItem);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get items from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return items;
+    }
+
+    public ArrayList<ToDoItem> getAllPendingItems() {
+        ArrayList<ToDoItem> items = new ArrayList<>();
+
+        String ITEMS_SELECT_QUERY = "SELECT * FROM "+TABLE_ITEMS+" WHERE "+FIELD_ITEM_IS_COMPLETED+"=0";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(ITEMS_SELECT_QUERY, null);
         try {

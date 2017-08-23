@@ -7,14 +7,19 @@
     android:id="@+id/mainLayout"
     tools:context="com.uduakobongeren.simpletodo.ui.MainActivity">
 
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/toggleCompleted" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lvItems"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/btnAddItem"/>
+        android:layout_above="@+id/btnAddItem"
+        android:layout_below="@+id/toggleCompleted" />
 
     <EditText
         android:layout_width="wrap_content"

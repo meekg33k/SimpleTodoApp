@@ -57,7 +57,6 @@ public class EditItemDialogFragment extends DialogFragment implements TextView.O
         mCancelEditBtn = view.findViewById(R.id.cancelEditBtn);
         final Dialog dialog = getDialog();
 
-
         //Get toDoItem attributes
         Bundle bundle = this.getArguments();
         toDoItemDesc = bundle.getString("itemDesc");
@@ -65,7 +64,6 @@ public class EditItemDialogFragment extends DialogFragment implements TextView.O
         toDoItemPos = bundle.getInt("itemPos");
 
         mEditText.setText(toDoItemDesc);
-
 
         // Show soft keyboard automatically and request focus to field
         mEditText.requestFocus();
@@ -100,8 +98,8 @@ public class EditItemDialogFragment extends DialogFragment implements TextView.O
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (EditorInfo.IME_ACTION_DONE == actionId) {
 
+        if (EditorInfo.IME_ACTION_DONE == actionId) {
             EditItemNameDialogListener listener = (EditItemNameDialogListener) getActivity();
             listener.onFinishEditDialog(mEditText.getText().toString(), toDoItemId, toDoItemPos);
             dismiss();

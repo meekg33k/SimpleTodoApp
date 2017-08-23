@@ -12,7 +12,7 @@
         android:rowCount="1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <CheckBox
             android:id="@+id/itemCompleted"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:layout_marginTop="11dp"
-            android:hint="Name of ToDo Item here..."
+            android:hint="Name of To-Do Item here..."
             android:textColor="@color/myTextColor"
             android:textSize="18sp" />
 
@@ -39,7 +39,7 @@
             android:layout_gravity="start|top"
             android:ems="10"
             android:clickable="true"
-            android:editable="false"/>
+            android:editable="false" />
     </GridLayout>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
