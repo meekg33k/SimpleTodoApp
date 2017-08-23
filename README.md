@@ -27,7 +27,7 @@ The following **additional** features are implemented:
 
 * [x] Status messages using Toast!
 * [x] Checkbox that allows user mark an item as completed
-* [x] Toggle feature that allows user view all list items versus incomplete list items
+* [x] Toggle feature that allows user view a list of all to-do items versus incomplete to-do list items
 
 ## Video Walkthrough
 
