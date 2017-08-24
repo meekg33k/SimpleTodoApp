@@ -1,8 +1,8 @@
-package com.uduakobongeren.simpletodo.model;
+package com.uduakobongeren.simpletodo.models;
 
 /**
  *
- * POJO representing a ToDo Item
+ * POJO representing a To-Do Item
  *
  * @author Uduak Obong-Eren
  * @since 8/13/17.

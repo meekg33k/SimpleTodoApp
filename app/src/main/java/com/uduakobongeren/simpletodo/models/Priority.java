@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.model;
+package com.uduakobongeren.simpletodo.models;
 
 /**
  * @author Uduak Obong-Eren

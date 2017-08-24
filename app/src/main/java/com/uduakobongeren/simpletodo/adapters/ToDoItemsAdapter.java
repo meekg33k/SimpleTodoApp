@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.ui;
+package com.uduakobongeren.simpletodo.adapters;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -19,9 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uduakobongeren.simpletodo.R;
+import com.uduakobongeren.simpletodo.fragments.EditItemDialogFragment;
+import com.uduakobongeren.simpletodo.activities.MainActivity;
 import com.uduakobongeren.simpletodo.dao.ToDoItemsDBHelper;
-import com.uduakobongeren.simpletodo.model.Priority;
-import com.uduakobongeren.simpletodo.model.ToDoItem;
+import com.uduakobongeren.simpletodo.models.Priority;
+import com.uduakobongeren.simpletodo.models.ToDoItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,7 +113,7 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
                     bundle.putInt("itemPos", position);
 
                     editItemDialogFragment.setArguments(bundle);
-                    editItemDialogFragment.show( mainActivity.getSupportFragmentManager(), "Well");
+                    editItemDialogFragment.show( mainActivity.getSupportFragmentManager(), "Show_Edit_Item_Fragment");
                 }
             }
         });
@@ -307,7 +309,6 @@ public class ToDoItemsAdapter extends ArrayAdapter<ToDoItem> {
     }
 
     private void setStatePriorityRadioButtons(boolean state){
-
         for (int i = 0; i < itemPriorityGroup.getChildCount(); i++) {
             itemPriorityGroup.getChildAt(i).setEnabled(state);
         }

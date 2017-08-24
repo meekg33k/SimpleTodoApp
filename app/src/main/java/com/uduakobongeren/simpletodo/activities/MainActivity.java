@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.ui;
+package com.uduakobongeren.simpletodo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uduakobongeren.simpletodo.R;
+import com.uduakobongeren.simpletodo.adapters.ToDoItemsAdapter;
 import com.uduakobongeren.simpletodo.dao.ToDoItemsDBHelper;
-import com.uduakobongeren.simpletodo.model.Priority;
-import com.uduakobongeren.simpletodo.model.ToDoItem;
+import com.uduakobongeren.simpletodo.interfaces.EditItemNameDialogListener;
+import com.uduakobongeren.simpletodo.models.Priority;
+import com.uduakobongeren.simpletodo.models.ToDoItem;
 
 import org.apache.commons.io.FileUtils;
 
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements EditItemNameDialo
 
     private boolean writeItemToDatabase(ToDoItem item){
         if (dao.createToDoItem(item)){
-            Toast.makeText(this, "Item created successfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Item created successfully!", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements EditItemNameDialo
 
     private boolean deleteItemFromDatabase(long id){
         if (dao.deleteToDoItem(id)){
-            Toast.makeText(this, "Item deleted successfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Item deleted successfully!", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -232,14 +234,11 @@ public class MainActivity extends AppCompatActivity implements EditItemNameDialo
         if (itemPos != -1){
 
             if (dao.editToDoItem(editedItem, newDescription)){
-                Toast.makeText(this, "Changes saved successfully!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Changes saved successfully!", Toast.LENGTH_SHORT).show();
                 editedItem.setDescription(newDescription);
                 itemsAdapter.notifyDataSetChanged();
             }
             //writeItems();
         }
     }
-
-
-
 }

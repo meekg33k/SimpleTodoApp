@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.ui;
+package com.uduakobongeren.simpletodo.interfaces;
 
 /**
  * @author Uduak Obong-Eren

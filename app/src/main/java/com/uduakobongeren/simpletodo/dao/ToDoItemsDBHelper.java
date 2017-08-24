@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.uduakobongeren.simpletodo.model.ToDoItem;
+import com.uduakobongeren.simpletodo.models.ToDoItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
@@ -122,28 +122,6 @@ public class ToDoItemsDBHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return status;
-    }
-
-    public boolean editToDoItemDesc(String newDesc, int pos) {
-        SQLiteDatabase db = getWritableDatabase();
-        long id = pos;
-        boolean status = false;
-        db.beginTransaction();
-
-        try {
-            ContentValues values = new ContentValues();
-            values.put(FIELD_ITEM_DESCRIPTION, newDesc);
-            db.update(TABLE_ITEMS, values, "id="+id, null);
-            db.setTransactionSuccessful();
-            status = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(TAG, "Error while trying to edit todo item in database");
-        } finally {
-            db.endTransaction();
-        }
-        return status;
-
     }
 
     public boolean updateItemCompletedState(ToDoItem item, int completed) {

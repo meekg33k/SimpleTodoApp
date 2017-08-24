@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.ui;
+package com.uduakobongeren.simpletodo.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.uduakobongeren.simpletodo.R;
+import com.uduakobongeren.simpletodo.interfaces.EditItemNameDialogListener;
 
 /**
  * @author Uduak Obong-Eren
@@ -69,8 +70,6 @@ public class EditItemDialogFragment extends DialogFragment implements TextView.O
         mEditText.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-
-        //Create view listeners
         mEditText.setOnEditorActionListener(this);
 
         mSaveEditBtn.setOnClickListener(new View.OnClickListener() {

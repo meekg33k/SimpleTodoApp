@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mainLayout"
-    tools:context="com.uduakobongeren.simpletodo.ui.MainActivity">
+    tools:context="com.uduakobongeren.simpletodo.activities.MainActivity">
 
     <Switch
         android:layout_width="match_parent"

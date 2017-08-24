@@ -1,4 +1,4 @@
-package com.uduakobongeren.simpletodo.ui;
+package com.uduakobongeren.simpletodo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
